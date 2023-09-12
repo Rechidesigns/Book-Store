@@ -15,5 +15,20 @@ namespace Test_Project2.Data_Contest
             get;
             set;
         }
+        public DbSet<Cart_Model> Cart_Table
+        {
+            get;
+            set;
+        }
+        public DbSet<Customer_Details> Customer_Details_Table
+        {
+            get;
+            set;
+        }
+        public DbSet<Order_Model> Order_Table
+        {
+            get;
+            set;
+        }
     }
 }

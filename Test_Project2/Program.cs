@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<Book_Shop_DataContext>(o => o.UseNpgsql(builder.Configuration.GetConnectionString("Book_Store_DB")));
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 builder.Services.AddScoped<IBook_Repository, Book_Repository>();
+builder.Services.AddScoped<ICart_Repository, Cart_Repository>();
+builder.Services.AddScoped<ICustomer_Detail_Repository, Customer_Detail_Repository>();
+builder.Services.AddScoped<IOrder_Repository, Order_Repository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

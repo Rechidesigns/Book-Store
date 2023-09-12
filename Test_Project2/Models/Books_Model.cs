@@ -20,7 +20,7 @@
         public string? Cover_Image_Url { get; set; }
         public string? Books_File { get; set; }
         public string? Published_Date { get; set; }
-       //ublic DateTime Created_On { get; set; }
+        public DateTime Created_On { get; set; }
     }
 }
 

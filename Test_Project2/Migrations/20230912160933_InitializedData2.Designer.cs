@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Test_Project2.Data_Contest;
@@ -11,9 +12,11 @@ using Test_Project2.Data_Contest;
 namespace Test_Project2.Migrations
 {
     [DbContext(typeof(Book_Shop_DataContext))]
-    partial class Book_Shop_DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230912160933_InitializedData2")]
+    partial class InitializedData2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

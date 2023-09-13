@@ -49,29 +49,38 @@ namespace Test_Project2.Controllers
         [HttpPost]
         public async Task<IActionResult> AddOrderAsync(AddOrder request)
         {
-            var order = new Order_Model()
-            {
-                Book_Id = request.Book_Id,
-                Cart_Id = request.Cart_Id,
-                Total_Amount = request.Total_Amount,
-                Customer_Id = request.Customer_Id,
-                Order_Status = "",
-                //Created_On = DateTime.Now,
+            var check = await ValidateAddOrderAsync(request);
 
-            };
-            order = await order_Repository.AddAsync(order);
-            var orderDto = new Order_ModelDto()
+            if (!check)
             {
-                Id = order.Id,
-                Book_Id = order.Book_Id,
-                Total_Amount = order.Total_Amount,
-                Customer_Id = order.Customer_Id,
-                Cart_Id = order.Cart_Id,
-                Order_Status = order.Order_Status,
-                //reated_On = books.Created_On,
-            };
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                var order = new Order_Model()
+                {
+                    Book_Id = request.Book_Id,
+                    Cart_Id = request.Cart_Id,
+                    Total_Amount = request.Total_Amount,
+                    Customer_Id = request.Customer_Id,
+                    Order_Status = "",
+                    //Created_On = DateTime.Now,
 
-            return CreatedAtAction(nameof(GetOrderAsync), new { id = orderDto.Id }, orderDto);
+                };
+                order = await order_Repository.AddAsync(order);
+                var orderDto = new Order_ModelDto()
+                {
+                    Id = order.Id,
+                    Book_Id = order.Book_Id,
+                    Total_Amount = order.Total_Amount,
+                    Customer_Id = order.Customer_Id,
+                    Cart_Id = order.Cart_Id,
+                    Order_Status = order.Order_Status,
+                    //reated_On = books.Created_On,
+                };
+
+                return CreatedAtAction(nameof(GetOrderAsync), new { id = orderDto.Id }, orderDto);
+            }
         }
         [HttpPut]
         [Route("{id:guid}")]
@@ -104,5 +113,36 @@ namespace Test_Project2.Controllers
                 return CreatedAtAction(nameof(GetOrderAsync), new { id = orderDto.Id }, orderDto);
             }
         }
+
+        #region private methods
+
+
+
+
+
+        private async Task<bool> ValidateAddOrderAsync(AddOrder request)
+        {
+            if (request == null)
+            {
+                ModelState.AddModelError(nameof(request), $" Add User Data Is Required");
+                return false;
+            }
+
+            var user = await order_Repository.CartExistAsync(request.Book_Id!);
+
+            if (user)
+            {
+                ModelState.AddModelError($"{nameof(request.Book_Id)}", $"{nameof(request.Book_Id)}  already Exist");
+            }
+
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+            return true;
+
+        }
+        #endregion
     }
 }

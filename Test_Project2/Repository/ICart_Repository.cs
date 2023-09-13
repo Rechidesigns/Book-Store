@@ -9,5 +9,6 @@ namespace Test_Project2.Repository
         Task<Cart_Model> AddAsync(Cart_Model books);
         Task<Cart_Model> DeleteAsync(Guid id);
         Task<Cart_Model> UpdateAsync(Guid id, Cart_Model books);
+        Task<bool> BookExistAsync(Guid book_id);
     }
 }

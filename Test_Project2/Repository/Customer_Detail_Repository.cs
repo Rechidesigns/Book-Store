@@ -19,6 +19,16 @@ namespace Test_Project2.Repository
             return books;
         }
 
+        public Task<bool> CustomerEmailExistAsync(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> CustomerPhoneNumberExistAsync(string phone_number)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<Customer_Details> DeleteAsync(Guid id)
         {
             var books = await bOOK_Context.Customer_Details_Table!.FirstOrDefaultAsync(x => x.Id == id);
@@ -71,6 +81,36 @@ namespace Test_Project2.Repository
                 existingCustomer.Address_Line_2 = books.Address_Line_2;
                 await bOOK_Context.SaveChangesAsync();
                 return existingCustomer;
+            }
+        }
+
+        public async Task<bool> UserExistAsync(string email)
+        {
+            var user = await bOOK_Context.Customer_Details_Table!.AnyAsync(x => x.Email == email);
+            if (user)
+            {
+#pragma warning disable CS8603 // Possible null reference return.
+                return true;
+#pragma warning restore CS8603 // Possible null reference return.
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> UserPhoneNumberExistAsync(string phone_number)
+        {
+            var user = await bOOK_Context.Customer_Details_Table!.AnyAsync(x => x.Phone_Number == phone_number);
+            if (user)
+            {
+#pragma warning disable CS8603 // Possible null reference return.
+                return true;
+#pragma warning restore CS8603 // Possible null reference return.
+            }
+            else
+            {
+                return false;
             }
         }
     }

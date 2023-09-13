@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mail;
+using System.Net;
 using Test_Project2.Models;
 using Test_Project2.Repository;
 
@@ -49,31 +51,41 @@ namespace Test_Project2.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCustomersAsync(AddCustomer request)
         {
-            var customer = new Customer_Details()
-            {
-                First_Name = request.First_Name,
-                Last_Name = request.Last_Name,
-                Email = request.Email,
-                Phone_Number = request.Phone_Number,
-                Address_Line_1 = request.Address_Line_1,
-                Address_Line_2 = request.Address_Line_2,
-                //Created_On = DateTime.Now,
+            var check = await ValidateAddCustomerAsync(request);
 
-            };
-            customer = await customer_Detail_Repository.AddAsync(customer);
-            var customerDto = new Customer_DetailsDto()
+            if (!check)
             {
-                Id = customer.Id,
-                First_Name = customer.First_Name,
-                Last_Name = customer.Last_Name,
-                Email = customer.Email,
-                Phone_Number = customer.Phone_Number,
-                Address_Line_1 = customer.Address_Line_1,
-                Address_Line_2 = customer.Address_Line_2,
-                //reated_On = books.Created_On,
-            };
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                var customer = new Customer_Details()
+                {
+                    First_Name = request.First_Name,
+                    Last_Name = request.Last_Name,
+                    Email = request.Email,
+                    Phone_Number = request.Phone_Number,
+                    Address_Line_1 = request.Address_Line_1,
+                    Address_Line_2 = request.Address_Line_2,
+                    //Created_On = DateTime.Now,
 
-            return CreatedAtAction(nameof(GetCustomersAsync), new { id = customerDto.Id }, customerDto);
+                };
+                customer = await customer_Detail_Repository.AddAsync(customer);
+                var customerDto = new Customer_DetailsDto()
+                {
+                    Id = customer.Id,
+                    First_Name = customer.First_Name,
+                    Last_Name = customer.Last_Name,
+                    Email = customer.Email,
+                    Phone_Number = customer.Phone_Number,
+                    Address_Line_1 = customer.Address_Line_1,
+                    Address_Line_2 = customer.Address_Line_2,
+                    //reated_On = books.Created_On,
+                };
+
+                return CreatedAtAction(nameof(GetCustomersAsync), new { id = customerDto.Id }, customerDto);
+            }
+
         }
         [HttpPut]
         [Route("{id:guid}")]
@@ -132,5 +144,41 @@ namespace Test_Project2.Controllers
             var cartsDto = mapper.Map<List<Cart_ModelDto>>(valid);
             return Ok(cartsDto);
         }
+
+        #region private methods
+
+
+
+
+
+        private async Task<bool> ValidateAddCustomerAsync(AddCustomer request)
+        {
+            if (request == null)
+            {
+                ModelState.AddModelError(nameof(request), $" Add User Data Is Required");
+                return false;
+            }
+
+            var user = await customer_Detail_Repository.CustomerEmailExistAsync(request.Email!);
+
+            if (user)
+            {
+                ModelState.AddModelError($"{nameof(request.Email)}", $"{nameof(request.Email)}  already Exist");
+            }
+            var userPhone = await customer_Detail_Repository.CustomerPhoneNumberExistAsync(request.Phone_Number!);
+
+            if (userPhone)
+            {
+                ModelState.AddModelError($"{nameof(request.Phone_Number)}", $"{nameof(request.Phone_Number)}  already Exist");
+            }
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+            return true;
+
+        }
+        #endregion
     }
 }

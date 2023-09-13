@@ -32,7 +32,7 @@ namespace Test_Project2.Controllers
         }
         [HttpGet]
         [Route("{id:guid}")]
-        [ActionName("GetCartsAsync")]
+        [ActionName("GetCartAsync")]
         public async Task<IActionResult> GetCartAsync(Guid id)
         {
             var cart = await cart_Repository.GetAsync(id);
@@ -49,25 +49,34 @@ namespace Test_Project2.Controllers
         [HttpPost]
         public async Task<IActionResult> AddCartAsync(AddCart request)
         {
-            var cart = new Cart_Model()
-            {
-                Book_Id = request.Book_Id,
-                Total_Amount = request.Total_Amount,
-                Customer_Id = request.Customer_Id,
-                //Created_On = DateTime.Now,
+            var check = await ValidateAddCartAsync(request);
 
-            };
-            cart = await cart_Repository.AddAsync(cart);
-            var cartDto = new Cart_ModelDto()
+            if (!check)
             {
-                Id = cart.Id,
-                Book_Id = cart.Book_Id,
-                Total_Amount = cart.Total_Amount,
-                Customer_Id = cart.Customer_Id,
-                //reated_On = books.Created_On,
-            };
+                return BadRequest(ModelState);
+            }
+            else
+            {
+                var cart = new Cart_Model()
+                {
+                    Book_Id = request.Book_Id,
+                    Total_Amount = request.Total_Amount,
+                    Customer_Id = request.Customer_Id,
+                    //Created_On = DateTime.Now,
 
-            return CreatedAtAction(nameof(GetCartAsync), new { id = cartDto.Id }, cartDto);
+                };
+                cart = await cart_Repository.AddAsync(cart);
+                var cartDto = new Cart_ModelDto()
+                {
+                    Id = cart.Id,
+                    Book_Id = cart.Book_Id,
+                    Total_Amount = cart.Total_Amount,
+                    Customer_Id = cart.Customer_Id,
+                    //reated_On = books.Created_On,
+                };
+
+                return CreatedAtAction(nameof(GetCartAsync), new { id = cartDto.Id }, cartDto);
+            }
         }
         [HttpPut]
         [Route("{id:guid}")]
@@ -98,6 +107,37 @@ namespace Test_Project2.Controllers
                 return CreatedAtAction(nameof(GetCartAsync), new { id = cartDto.Id }, cartDto);
             }
         }
+
+        #region private methods
+
+
+
+
+
+        private async Task<bool> ValidateAddCartAsync(AddCart request)
+        {
+            if (request == null)
+            {
+                ModelState.AddModelError(nameof(request), $" Add User Data Is Required");
+                return false;
+            }
+
+            var user = await cart_Repository.BookExistAsync(request.Book_Id!);
+
+            if (user)
+            {
+                ModelState.AddModelError($"{nameof(request.Book_Id)}", $"{nameof(request.Book_Id)}  already Exist");
+            }
+
+
+            if (ModelState.ErrorCount > 0)
+            {
+                return false;
+            }
+            return true;
+
+        }
+        #endregion
     }
 }
 

@@ -9,5 +9,7 @@ namespace Test_Project2.Repository
         Task<Customer_Details> AddAsync(Customer_Details books);
         Task<Customer_Details> DeleteAsync(Guid id);
         Task<Customer_Details> UpdateAsync(Guid id, Customer_Details books);
+        Task<bool> CustomerEmailExistAsync(string email);
+        Task<bool> CustomerPhoneNumberExistAsync(string phone_number);
     }
 }

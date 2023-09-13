@@ -19,7 +19,25 @@ namespace Test_Project2.Repository
                 return books;
             }
 
-            public async Task<Cart_Model> DeleteAsync(Guid id)
+        public async Task<bool> BookExistAsync(Guid book_id)
+        {
+
+            {
+                var user = await bOOK_Context.Cart_Table!.AnyAsync(x => x.Book_Id == book_id);
+                if (user)
+                {
+#pragma warning disable CS8603 // Possible null reference return.
+                    return true;
+#pragma warning restore CS8603 // Possible null reference return.
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public async Task<Cart_Model> DeleteAsync(Guid id)
             {
                 var books = await bOOK_Context.Cart_Table!.FirstOrDefaultAsync(x => x.Id == id);
                 if (books == null)

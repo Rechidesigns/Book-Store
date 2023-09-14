@@ -1,0 +1,17 @@
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\bin\Debug\net7.0\RabbitMQBookApplication.exe
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\bin\Debug\net7.0\RabbitMQBookApplication.deps.json
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\bin\Debug\net7.0\RabbitMQBookApplication.runtimeconfig.json
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\bin\Debug\net7.0\RabbitMQBookApplication.dll
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\bin\Debug\net7.0\RabbitMQBookApplication.pdb
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\bin\Debug\net7.0\RabbitMQ.Client.dll
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\obj\Debug\net7.0\RabbitMQBookApplication.csproj.AssemblyReference.cache
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\obj\Debug\net7.0\RabbitMQBookApplication.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\obj\Debug\net7.0\RabbitMQBookApplication.AssemblyInfoInputs.cache
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\obj\Debug\net7.0\RabbitMQBookApplication.AssemblyInfo.cs
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\obj\Debug\net7.0\RabbitMQBookApplication.csproj.CoreCompileInputs.cache
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\obj\Debug\net7.0\RabbitMQBookApplication.csproj.CopyComplete
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\obj\Debug\net7.0\RabbitMQBookApplication.dll
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\obj\Debug\net7.0\refint\RabbitMQBookApplication.dll
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\obj\Debug\net7.0\RabbitMQBookApplication.pdb
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\obj\Debug\net7.0\RabbitMQBookApplication.genruntimeconfig.cache
+C:\Users\pc\source\repos\Test_Project2\RabbitMQBookApplication\obj\Debug\net7.0\ref\RabbitMQBookApplication.dll

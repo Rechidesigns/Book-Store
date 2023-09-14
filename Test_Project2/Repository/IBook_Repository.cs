@@ -9,5 +9,6 @@ namespace Test_Project2.Repository
         Task<Books_Model> AddAsync(Books_Model books);
         Task<Books_Model> DeleteAsync(Guid id);
         Task<Books_Model> UpdateAsync(Guid id, Books_Model books);
+        Task<Books_Model> UpdateQuantityAsync(Guid id);
     }
 }

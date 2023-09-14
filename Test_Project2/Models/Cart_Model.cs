@@ -6,6 +6,7 @@
         public Guid Customer_Id { get; set; }
         public Guid Book_Id {  get; set; }
         public string? Total_Amount { get; set; }
+        public int? Book_Quantity { get; set; }
         public DateTime Created_On {  get; set; }
 
 
@@ -17,6 +18,8 @@
         public Guid Customer_Id { get; set; }
         public Guid Book_Id { get; set; }
         public string? Total_Amount { get; set; }
+        public int? Book_Quantity { get; set; }
+        public DateTime Created_On { get; set; }
 
 
 

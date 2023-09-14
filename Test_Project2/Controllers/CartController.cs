@@ -62,7 +62,7 @@ namespace Test_Project2.Controllers
                     Book_Id = request.Book_Id,
                     Total_Amount = request.Total_Amount,
                     Customer_Id = request.Customer_Id,
-                    //Created_On = DateTime.Now,
+                    Created_On = DateTime.Now,
 
                 };
                 cart = await cart_Repository.AddAsync(cart);
@@ -72,7 +72,7 @@ namespace Test_Project2.Controllers
                     Book_Id = cart.Book_Id,
                     Total_Amount = cart.Total_Amount,
                     Customer_Id = cart.Customer_Id,
-                    //reated_On = books.Created_On,
+                    Created_On = cart.Created_On,
                 };
 
                 return CreatedAtAction(nameof(GetCartAsync), new { id = cartDto.Id }, cartDto);
@@ -85,7 +85,7 @@ namespace Test_Project2.Controllers
             var cart = new Cart_Model()
             {
                 Total_Amount = request.Total_Amount,
-                //reated_On = DateTime.UtcNow,
+                Created_On = DateTime.Now,
 
             };
             var carts = await cart_Repository.UpdateAsync(id, cart);
@@ -101,7 +101,7 @@ namespace Test_Project2.Controllers
                     Customer_Id = cart.Customer_Id,
                     Total_Amount = cart.Total_Amount,
                     Book_Id = cart.Book_Id,
-                    //reated_On = books.Created_On,
+                    Created_On = cart.Created_On,
                 };
 
                 return CreatedAtAction(nameof(GetCartAsync), new { id = cartDto.Id }, cartDto);

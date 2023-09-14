@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Test_Project2.Models;
+using Test_Project2.RabbitMQ;
 using Test_Project2.Repository;
 
 namespace Test_Project2.Controllers
@@ -15,13 +16,15 @@ namespace Test_Project2.Controllers
         private readonly ICart_Repository cart_Repository;
         private readonly IOrder_Repository order_Repository;
         private readonly IMapper mapper;
-        public OrderController(IBook_Repository book_Repository, IMapper mapper, ICustomer_Detail_Repository customer_Detail_Repository, ICart_Repository cart_Repository, IOrder_Repository order_Repository)
+        private readonly IRabbitMQ_Producer rabbitMQ_Producer;
+        public OrderController(IBook_Repository book_Repository, IMapper mapper, ICustomer_Detail_Repository customer_Detail_Repository, ICart_Repository cart_Repository, IOrder_Repository order_Repository, IRabbitMQ_Producer rabbitMQ_Producer)
         {
             this.book_Repository = book_Repository;
             this.mapper = mapper;
             this.customer_Detail_Repository = customer_Detail_Repository;
             this.cart_Repository = cart_Repository;
             this.order_Repository = order_Repository;
+            this.rabbitMQ_Producer = rabbitMQ_Producer;
         }
         [HttpGet]
         public async Task<IActionResult> GetAllOrderAsync()
@@ -64,10 +67,13 @@ namespace Test_Project2.Controllers
                     Total_Amount = request.Total_Amount,
                     Customer_Id = request.Customer_Id,
                     Order_Status = "",
-                    //Created_On = DateTime.Now,
+                    Created_On = DateTime.Now,
 
                 };
                 order = await order_Repository.AddAsync(order);
+
+                rabbitMQ_Producer.SendBookMessage(order);
+
                 var orderDto = new Order_ModelDto()
                 {
                     Id = order.Id,
@@ -76,7 +82,7 @@ namespace Test_Project2.Controllers
                     Customer_Id = order.Customer_Id,
                     Cart_Id = order.Cart_Id,
                     Order_Status = order.Order_Status,
-                    //reated_On = books.Created_On,
+                    Created_On = order.Created_On,
                 };
 
                 return CreatedAtAction(nameof(GetOrderAsync), new { id = orderDto.Id }, orderDto);
@@ -89,7 +95,7 @@ namespace Test_Project2.Controllers
             var order = new Order_Model()
             {
                 Order_Status = request.Order_Status,
-                //Created_On = DateTime.UtcNow,
+                Created_On = DateTime.UtcNow,
 
             };
             var orders = await order_Repository.UpdateAsync(id, order);
@@ -107,7 +113,7 @@ namespace Test_Project2.Controllers
                     Book_Id = order.Book_Id,
                     Order_Status = order.Order_Status,
                     Cart_Id = order.Cart_Id,
-                    //Created_On = books.Created_On,
+                    Created_On = order.Created_On,
                 };
 
                 return CreatedAtAction(nameof(GetOrderAsync), new { id = orderDto.Id }, orderDto);

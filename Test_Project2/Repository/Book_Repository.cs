@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Test_Project2.Data_Contest;
 using Test_Project2.Models;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Test_Project2.Repository
 {
@@ -68,6 +69,24 @@ namespace Test_Project2.Repository
                 existingBook.Cover_Image_Url = books.Cover_Image_Url;
                 existingBook.Books_File = books.Books_File;
                 existingBook.Published_Date = books.Published_Date;
+                await bOOK_Context.SaveChangesAsync();
+                return existingBook;
+            }
+        }
+
+        public async Task<Books_Model> UpdateQuantityAsync(Guid id)
+        {
+            var existingBook = await bOOK_Context.Books_Table!.
+    FirstOrDefaultAsync(x => x.Id == id);
+            if (existingBook == null)
+            {
+#pragma warning disable CS8603 // Possible null reference return.
+                return null;
+#pragma warning restore CS8603 // Possible null reference return.
+            }
+            else
+            {
+                existingBook.Books_Quantity = existingBook.Books_Quantity--;
                 await bOOK_Context.SaveChangesAsync();
                 return existingBook;
             }

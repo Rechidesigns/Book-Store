@@ -8,5 +8,6 @@
         public string? Phone_Number { get; set; }
         public string? Address_Line_1 { get; set; }
         public string? Address_Line_2 { get; set; }
+        public string? Password { get; set; }
     }
 }

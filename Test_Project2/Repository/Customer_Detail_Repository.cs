@@ -13,20 +13,9 @@ namespace Test_Project2.Repository
         }
         public async Task<Customer_Details> AddAsync(Customer_Details books)
         {
-            books.Id = Guid.NewGuid();
             await bOOK_Context.AddAsync(books);
             await bOOK_Context.SaveChangesAsync();
             return books;
-        }
-
-        public Task<bool> CustomerEmailExistAsync(string email)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> CustomerPhoneNumberExistAsync(string phone_number)
-        {
-            throw new NotImplementedException();
         }
 
         public async Task<Customer_Details> DeleteAsync(Guid id)
@@ -79,6 +68,25 @@ namespace Test_Project2.Repository
                 existingCustomer.Phone_Number = books.Phone_Number;
                 existingCustomer.Address_Line_1 = books.Address_Line_1;
                 existingCustomer.Address_Line_2 = books.Address_Line_2;
+                await bOOK_Context.SaveChangesAsync();
+                return existingCustomer;
+            }
+        }
+
+        public async Task<Customer_Details> UpdateImageAsync(Guid id, Customer_Details books)
+        {
+            var existingCustomer = await bOOK_Context.Customer_Details_Table!.
+    FirstOrDefaultAsync(x => x.Id == id);
+            if (existingCustomer == null)
+            {
+#pragma warning disable CS8603 // Possible null reference return.
+                return null;
+#pragma warning restore CS8603 // Possible null reference return.
+            }
+            else
+            {
+                existingCustomer.Profile_Picture = books.Profile_Picture;
+
                 await bOOK_Context.SaveChangesAsync();
                 return existingCustomer;
             }

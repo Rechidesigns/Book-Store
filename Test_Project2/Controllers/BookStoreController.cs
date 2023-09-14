@@ -50,7 +50,7 @@ namespace Test_Project2.Controllers
                 Cover_Image_Url = request.Cover_Image_Url,
                 Books_File = request.Books_File,
                 Published_Date = request.Published_Date,
-               //ated_On = DateTime.Now,
+                Created_On = DateTime.Now,
 
             };
             books = await book_Repository.AddAsync(books);
@@ -62,7 +62,7 @@ namespace Test_Project2.Controllers
                 Cover_Image_Url = books.Cover_Image_Url,
                 Books_File = books.Books_File,
                 Published_Date = books.Published_Date,
-               //reated_On = books.Created_On,
+                Created_On = books.Created_On,
             };
 
             return CreatedAtAction(nameof(GetBooksAsync), new { id = booksDto.Id }, booksDto);
@@ -78,7 +78,7 @@ namespace Test_Project2.Controllers
                 Cover_Image_Url = request.Cover_Image_Url,
                 Books_File = request.Books_File,
                 Published_Date = request.Published_Date,
-               //reated_On = DateTime.UtcNow,
+                Created_On = DateTime.Now,
 
             };
             var bookss =await book_Repository.UpdateAsync(id, books);
@@ -96,7 +96,7 @@ namespace Test_Project2.Controllers
                     Cover_Image_Url = books.Cover_Image_Url,
                     Books_File = books.Books_File,
                     Published_Date = books.Published_Date,
-                   //reated_On = books.Created_On,
+                    Created_On = books.Created_On,
                 };
 
                 return CreatedAtAction(nameof(GetBooksAsync), new { id = booksDto.Id }, booksDto);
